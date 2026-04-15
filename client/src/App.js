@@ -20,7 +20,7 @@ function App() {
         <Route path="/post" element={<PostProject />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/my-apps" element={<MyApplications />} />
-        <Route path="/chat/:id" element={<Chat />} /> 
+<Route path="/chat/:id" element={<Chat />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </HashRouter>

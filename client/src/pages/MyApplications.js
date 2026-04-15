@@ -12,56 +12,101 @@ function MyApplications() {
   }, []);
 
   const fetchApps = async () => {
-    const userId = localStorage.getItem("userId");
+    try {
+      const userId = localStorage.getItem("userId");
 
-    const res = await axios.get(
-      `${BASE_URL}/application/my/${userId}`
-    );
+      const res = await axios.get(
+        `${BASE_URL}/application/my/${userId}`
+      );
 
-    setApps(res.data);
+      setApps(res.data);
+    } catch (err) {
+      console.log(err);
+      alert("Error loading applications");
+    }
   };
 
   // ✅ UPDATE STATUS
   const updateStatus = async (id, status) => {
-    await axios.put(
-      `${BASE_URL}/application/update/${id}`,
-      { status }
-    );
-    alert("Updated");
-    fetchApps();
+    try {
+      await axios.put(
+        `${BASE_URL}/application/update/${id}`,
+        { status }
+      );
+      alert("Updated");
+      fetchApps();
+    } catch (err) {
+      alert("Error updating status");
+    }
+  };
+
+  // ✅ SAFE CHAT NAVIGATION
+  const openChat = (projectId) => {
+    const id =
+      typeof projectId === "object" ? projectId._id : projectId;
+
+    console.log("Navigating to chat with ID:", id);
+
+    if (!id) {
+      alert("Project ID not found");
+      return;
+    }
+
+    navigate(`/chat/${id}`);
   };
 
   return (
-    <div>
-      <h2>My Applications</h2>
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4">My Applications</h2>
 
-      {apps.length === 0 && <p>No applications found</p>}
+      {apps.length === 0 && (
+        <p className="text-gray-500">No applications found</p>
+      )}
 
       {apps.map((a) => (
         <div
           key={a._id}
-          style={{
-            border: "1px solid black",
-            margin: "10px",
-            padding: "10px",
-          }}
+          className="bg-white p-4 mb-4 rounded shadow"
         >
-          <p>Project ID: {a.projectId}</p>
-          <p>{a.message}</p>
-          <p>Status: {a.status}</p>
+          {/* ✅ SHOW PROPER PROJECT INFO */}
+          <p className="font-semibold">
+            Project:{" "}
+            {typeof a.projectId === "object"
+              ? a.projectId.title
+              : a.projectId}
+          </p>
 
-          <button onClick={() => updateStatus(a._id, "accepted")}>
-            Accept
-          </button>
+          <p className="text-gray-600">{a.message}</p>
 
-          <button onClick={() => updateStatus(a._id, "rejected")}>
-            Reject
-          </button>
+          <p className="mt-1">
+            Status:{" "}
+            <span className="font-bold">{a.status}</span>
+          </p>
 
-          {/* ✅ FIXED CHAT BUTTON */}
-          <button onClick={() => navigate(`/chat/${a.projectId}`)}>
-            Open Chat
-          </button>
+          {/* BUTTONS */}
+          <div className="mt-3 space-x-2">
+            <button
+              onClick={() => updateStatus(a._id, "accepted")}
+              className="bg-green-500 text-white px-3 py-1 rounded"
+            >
+              Accept
+            </button>
+
+            <button
+              onClick={() => updateStatus(a._id, "rejected")}
+              className="bg-red-500 text-white px-3 py-1 rounded"
+            >
+              Reject
+            </button>
+
+            {/* ✅ CHAT BUTTON */}
+            <button
+              onClick={() => openChat(a.projectId)}
+              className="bg-blue-500 text-white px-3 py-1 rounded"
+            >
+              Open Chat
+            </button>
+          </div>
         </div>
       ))}
     </div>
