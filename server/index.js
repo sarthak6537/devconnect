@@ -6,6 +6,8 @@ const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const projectRoutes = require("./routes/projectRoutes");
 const applicationRoutes = require("./routes/applicationRoutes");
+const messageRoutes = require("./routes/messageRoutes");
+
 
 // ✅ THEN you can log
 console.log("userRoutes:", userRoutes);
@@ -22,6 +24,7 @@ app.use(express.json());
 app.use("/user", userRoutes);
 app.use("/project", projectRoutes);
 app.use("/application", applicationRoutes);
+app.use("/message", messageRoutes);
 
 // DB connect
 mongoose.connect("YOUR_MONGO_URL")

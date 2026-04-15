@@ -6,6 +6,7 @@ import PostProject from "./pages/PostProject";
 import Projects from "./pages/Projects";
 import Navbar from "./components/Navbar";
 import MyApplications from "./pages/MyApplications";
+import Chat from "./pages/Chat";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/post" element={<PostProject />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/my-apps" element={<MyApplications />} />
+        <Route path="/chat/:id" element={<Chat />} /> 
       </Routes>
     </HashRouter>
   );

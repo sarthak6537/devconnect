@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import BASE_URL from "../api";
 
 function MyApplications() {
   const [apps, setApps] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchApps();
@@ -12,20 +15,20 @@ function MyApplications() {
     const userId = localStorage.getItem("userId");
 
     const res = await axios.get(
-      `https://devconnect-twnc.onrender.com/application/my/${userId}`
+      `${BASE_URL}/application/my/${userId}`
     );
 
     setApps(res.data);
   };
 
-  // ✅ NEW FUNCTION (STEP 5)
+  // ✅ UPDATE STATUS
   const updateStatus = async (id, status) => {
     await axios.put(
-      `https://devconnect-twnc.onrender.com/application/update/${id}`,
+      `${BASE_URL}/application/update/${id}`,
       { status }
     );
     alert("Updated");
-    fetchApps(); // refresh list
+    fetchApps();
   };
 
   return (
@@ -47,13 +50,17 @@ function MyApplications() {
           <p>{a.message}</p>
           <p>Status: {a.status}</p>
 
-          {/* ✅ NEW BUTTONS */}
           <button onClick={() => updateStatus(a._id, "accepted")}>
             Accept
           </button>
 
           <button onClick={() => updateStatus(a._id, "rejected")}>
             Reject
+          </button>
+
+          {/* ✅ FIXED CHAT BUTTON */}
+          <button onClick={() => navigate(`/chat/${a.projectId}`)}>
+            Open Chat
           </button>
         </div>
       ))}

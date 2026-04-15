@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BASE_URL from "../api";
+import { useNavigate } from "react-router-dom";
 
 function Projects() {
   const [projects, setProjects] = useState([]);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     fetchProjects();
@@ -73,6 +76,9 @@ function Projects() {
             >
               Apply
             </button>
+            <button onClick={() => navigate(`/chat/${p._id}`)}>
+  Open Chat
+</button>
           </div>
         ))}
       </div>
