@@ -5,7 +5,7 @@ function Signup() {
   const [data, setData] = useState({});
 
   const handleSubmit = async () => {
-    await axios.post("http://https://devconnect-twnc.onrender.com//user/signup", data);
+    await axios.post("https://devconnect-twnc.onrender.com//user/signup", data);
     alert("User Registered 🚀");
   };
 

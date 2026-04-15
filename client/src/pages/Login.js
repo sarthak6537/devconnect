@@ -6,7 +6,7 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    const res = await axios.post("http://https://devconnect-twnc.onrender.com//user/login", {
+    const res = await axios.post("https://devconnect-twnc.onrender.com//user/login", {
       email,
       password
     });

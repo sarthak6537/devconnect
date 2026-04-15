@@ -19,5 +19,14 @@ router.get("/my/:id", async (req, res) => {
   const apps = await Application.find({ developerId: req.params.id });
   res.json(apps);
 });
+router.put("/update/:id", async (req, res) => {
+  const app = await Application.findByIdAndUpdate(
+    req.params.id,
+    { status: req.body.status },
+    { new: true }
+  );
+
+  res.json(app);
+});
 
 module.exports = router;
