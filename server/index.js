@@ -1,21 +1,41 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const http = require("http");
+const { Server } = require("socket.io");
+const Message = require("./models/Message");
 
-// ✅ Import FIRST
+
+// ✅ Routes
 const userRoutes = require("./routes/userRoutes");
 const projectRoutes = require("./routes/projectRoutes");
 const applicationRoutes = require("./routes/applicationRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 
-
-// ✅ THEN you can log
-console.log("userRoutes:", userRoutes);
-console.log("projectRoutes:", projectRoutes);
-console.log("applicationRoutes:", applicationRoutes);
-
 const app = express();
+const server = http.createServer(app);
 
+// ✅ SOCKET SETUP
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  socket.on("sendMessage", async (data) => {
+    try {
+      // ✅ SAVE TO DB
+      const newMsg = new Message(data);
+      await newMsg.save();
+
+      // ✅ SEND TO ALL
+      io.emit("receiveMessage", newMsg);
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
+});
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -26,17 +46,21 @@ app.use("/project", projectRoutes);
 app.use("/application", applicationRoutes);
 app.use("/message", messageRoutes);
 
-// DB connect
-mongoose.connect("YOUR_MONGO_URL")
+// ✅ DB CONNECT
+mongoose
+  .connect(process.env.MONGO_URL)
   .then(() => console.log("DB Connected"))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 
 // Test route
 app.get("/", (req, res) => {
   res.send("API Working");
 });
 
-// Server
-app.listen(5000, () => {
-  console.log("Server running on 5000");
+// ✅ PORT FIX (IMPORTANT for Render)
+const PORT = process.env.PORT || 5000;
+
+// Start server
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

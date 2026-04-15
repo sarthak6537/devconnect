@@ -7,6 +7,7 @@ import Projects from "./pages/Projects";
 import Navbar from "./components/Navbar";
 import MyApplications from "./pages/MyApplications";
 import Chat from "./pages/Chat";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/my-apps" element={<MyApplications />} />
         <Route path="/chat/:id" element={<Chat />} /> 
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </HashRouter>
   );

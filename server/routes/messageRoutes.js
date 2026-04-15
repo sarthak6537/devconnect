@@ -14,5 +14,4 @@ router.get("/:projectId", async (req, res) => {
   const msgs = await Message.find({ projectId: req.params.projectId });
   res.json(msgs);
 });
-
 module.exports = router;
