@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import BASE_URL from "../api";
 
 function Projects() {
   const [projects, setProjects] = useState([]);
@@ -8,11 +9,10 @@ function Projects() {
     fetchProjects();
   }, []);
 
+  // ✅ FETCH PROJECTS
   const fetchProjects = async () => {
     try {
-      const res = await axios.get(
-        "https://devconnect-twnc.onrender.com/project/all"
-      );
+      const res = await axios.get(`${BASE_URL}/project/all`);
       setProjects(res.data);
     } catch (err) {
       alert("Error loading projects");
@@ -26,7 +26,7 @@ function Projects() {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "https://devconnect-twnc.onrender.com/application/apply",
+        `${BASE_URL}/application/apply`,
         {
           projectId,
           developerId,
