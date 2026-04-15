@@ -5,7 +5,7 @@ function PostProject() {
   const [project, setProject] = useState({});
 
   const handleSubmit = async () => {
-    await axios.post("http://localhost:5000/project/create", project);
+    await axios.post("https://devconnect-twnc.onrender.com/project/create", project);
     alert("Project Posted");
   };
 

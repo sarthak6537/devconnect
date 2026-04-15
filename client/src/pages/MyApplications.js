@@ -11,7 +11,7 @@ function MyApplications() {
   const fetchApps = async () => {
     const userId = localStorage.getItem("userId");
 
-    const res = await axios.get(`http://localhost:5000/application/my/${userId}`);
+    const res = await axios.get(`http://https://devconnect-twnc.onrender.com/application/my/${userId}`);
     setApps(res.data);
   };
 
