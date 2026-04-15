@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -7,10 +7,9 @@ import Projects from "./pages/Projects";
 import Navbar from "./components/Navbar";
 import MyApplications from "./pages/MyApplications";
 
-
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -20,8 +19,7 @@ function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/my-apps" element={<MyApplications />} />
       </Routes>
-    </BrowserRouter>
-    
+    </HashRouter>
   );
 }
 
