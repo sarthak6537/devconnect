@@ -47,10 +47,9 @@ app.use("/application", applicationRoutes);
 app.use("/message", messageRoutes);
 
 // ✅ DB CONNECT
-mongoose
-  .connect(process.env.MONGO_URL)
+mongoose.connect("mongodb+srv://<devconnect>:<dev123>@sarthak.avwe2.mongodb.net/?appName=devconnect")
   .then(() => console.log("DB Connected"))
-  .catch((err) => console.log(err));
+  .catch(err => console.log(err));
 
 // Test route
 app.get("/", (req, res) => {

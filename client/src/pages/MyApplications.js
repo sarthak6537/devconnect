@@ -100,12 +100,14 @@ function MyApplications() {
             </button>
 
             {/* ✅ CHAT BUTTON */}
-            <button
-              onClick={() => openChat(a.projectId)}
-              className="bg-blue-500 text-white px-3 py-1 rounded"
-            >
-              Open Chat
-            </button>
+           {a.status === "accepted" && (
+  <button
+    onClick={() => openChat(a.projectId)}
+    className="bg-blue-500 text-white px-3 py-1 rounded"
+  >
+    Open Chat
+  </button>
+)}
           </div>
         </div>
       ))}
