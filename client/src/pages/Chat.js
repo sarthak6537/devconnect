@@ -18,11 +18,14 @@ function Chat() {
   const bottomRef = useRef(null);
 
   // ✅ LOAD OLD MESSAGES
-  useEffect(() => {
-    if (projectId) {
-      fetchMessages();
-    }
-  }, [projectId]);
+useEffect(() => {
+  const fetchMessages = async () => {
+    const res = await axios.get(`${BASE_URL}/message/${projectId}`);
+    setMessages(res.data);
+  };
+
+  fetchMessages();
+}, [projectId]);
 
   const fetchMessages = async () => {
     try {
