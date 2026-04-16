@@ -51,9 +51,11 @@ app.use("/application", applicationRoutes);
 app.use("/message", messageRoutes);
 
 // ✅ FIXED MONGODB
-mongoose.connect("mongodb+srv://devconnect:dev123@sarthak.avwe2.mongodb.net/devconnect")
-  .then(() => console.log("DB Connected"))
-  .catch(err => console.log(err));
+mongoose.connect(
+  "mongodb+srv://devconnect:dev123@sarthak.avwe2.mongodb.net/devconnect?retryWrites=true&w=majority"
+)
+.then(() => console.log("DB Connected"))
+.catch(err => console.log("DB ERROR:", err));
 
 // Test route
 app.get("/", (req, res) => {
