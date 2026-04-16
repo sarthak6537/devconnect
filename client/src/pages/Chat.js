@@ -65,47 +65,60 @@ function Chat() {
     setText("");
   };
 
-  return (
-    <div className="p-4 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-2">💬 Chat</h2>
+return (
+  <div className="flex flex-col h-screen bg-gray-100">
+    
+    {/* HEADER */}
+    <div className="bg-blue-500 text-white p-4 text-lg font-semibold">
+      💬 Project Chat
+    </div>
 
-      <div className="border h-64 overflow-y-scroll p-2 mb-2 bg-white rounded">
-        {messages.map((m, i) => (
+    {/* MESSAGES */}
+    <div className="flex-1 overflow-y-scroll p-4">
+      {messages.map((m, i) => (
+        <div
+          key={i}
+          className={`flex mb-2 ${
+            m.senderId === userId ? "justify-end" : "justify-start"
+          }`}
+        >
           <div
-            key={i}
-            className={`mb-2 ${
-              m.senderId === userId ? "text-right" : "text-left"
+            className={`px-4 py-2 rounded-xl max-w-xs ${
+              m.senderId === userId
+                ? "bg-blue-500 text-white"
+                : "bg-white border"
             }`}
           >
-            <span
-              className={`inline-block px-3 py-1 rounded ${
-                m.senderId === userId
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-300"
-              }`}
-            >
-              {m.text}
-            </span>
-          </div>
-        ))}
-        <div ref={bottomRef}></div>
-      </div>
+            <p>{m.text}</p>
 
+            {/* ✅ TIMESTAMP */}
+            <p className="text-xs text-gray-200 mt-1 text-right">
+              {new Date().toLocaleTimeString()}
+            </p>
+          </div>
+        </div>
+      ))}
+      <div ref={bottomRef}></div>
+    </div>
+
+    {/* INPUT BOX */}
+    <div className="p-3 bg-white flex gap-2">
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Type message..."
-        className="border p-2 w-full rounded"
+        placeholder="Type a message..."
+        className="flex-1 border rounded-full px-4 py-2 outline-none"
       />
 
       <button
         onClick={sendMessage}
-        className="bg-blue-500 text-white px-4 py-2 mt-2 w-full rounded"
+        className="bg-blue-500 text-white px-4 py-2 rounded-full"
       >
         Send
       </button>
     </div>
-  );
+  </div>
+);
 }
 
 export default Chat;
