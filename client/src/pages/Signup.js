@@ -1,12 +1,26 @@
 import { useState } from "react";
 import axios from "axios";
+import BASE_URL from "../api";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
-  const [data, setData] = useState({});
+  const [form, setForm] = useState({});
+  const navigate = useNavigate();
 
-  const handleSubmit = async () => {
-    await axios.post("https://devconnect-twnc.onrender.com//user/signup", data);
-    alert("User Registered 🚀");
+  const handleSignup = async () => {
+    try {
+      const res = await axios.post(`${BASE_URL}/user/signup`, form);
+
+      console.log("SIGNUP RESPONSE:", res.data);
+
+      alert("Signup Success 🚀");
+
+      navigate("/login");
+
+    } catch (err) {
+      console.log(err.response?.data || err.message);
+      alert("Signup Failed ❌");
+    }
   };
 
   return (
@@ -14,29 +28,33 @@ function Signup() {
       <div className="bg-white p-8 rounded-2xl shadow-lg w-80">
         <h2 className="text-2xl font-bold mb-6 text-center">Signup</h2>
 
-        <input className="w-full border p-2 mb-2 rounded"
+        <input
           placeholder="Name"
-          onChange={e => setData({ ...data, name: e.target.value })}
+          className="w-full border p-2 mb-3 rounded"
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
 
-        <input className="w-full border p-2 mb-2 rounded"
+        <input
           placeholder="Email"
-          onChange={e => setData({ ...data, email: e.target.value })}
+          className="w-full border p-2 mb-3 rounded"
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
 
-        <input className="w-full border p-2 mb-2 rounded"
-          placeholder="Password"
+        <input
+          placeholder="Role"
+          className="w-full border p-2 mb-3 rounded"
+          onChange={(e) => setForm({ ...form, role: e.target.value })}
+        />
+
+        <input
           type="password"
-          onChange={e => setData({ ...data, password: e.target.value })}
-        />
-
-        <input className="w-full border p-2 mb-4 rounded"
-          placeholder="Role (shopkeeper/developer)"
-          onChange={e => setData({ ...data, role: e.target.value })}
+          placeholder="Password"
+          className="w-full border p-2 mb-4 rounded"
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
 
         <button
-          onClick={handleSubmit}
+          onClick={handleSignup}
           className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600"
         >
           Signup
