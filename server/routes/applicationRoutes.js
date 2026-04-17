@@ -4,11 +4,11 @@ const Application = require("../models/Application");
 const auth = require("../middleware/auth"); // ✅ add this
 
 // Apply (protected)
-router.post("/apply", auth, async (req, res) => {
+router.post("/apply", async (req, res) => {
   try {
-    const newApp = new Application(req.body);
-    await newApp.save();
-    res.json(newApp);
+    const app = new Application(req.body);
+    await app.save();
+    res.json(app);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

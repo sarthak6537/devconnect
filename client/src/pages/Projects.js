@@ -24,30 +24,24 @@ function Projects() {
 
   // ✅ APPLY FUNCTION
   const apply = async (projectId) => {
-    try {
-      const developerId = localStorage.getItem("userId");
-      const token = localStorage.getItem("token");
+  try {
+    const developerId = localStorage.getItem("userId");
 
-      await axios.post(
-        `${BASE_URL}/application/apply`,
-        {
-          projectId,
-          developerId,
-          message: "I can build this project",
-        },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+    // ✅ ADD THIS LINE
+    console.log("Applying:", projectId, developerId);
 
-      alert("Applied Successfully");
-    } catch (err) {
-      alert(err.response?.data?.message || "Error applying");
-    }
-  };
+    await axios.post(`${BASE_URL}/application/apply`, {
+      projectId,
+      developerId,
+      message: "I can build this project",
+    });
 
+    alert("Applied Successfully");
+  } catch (err) {
+    console.log(err);
+    alert("Error applying");
+  }
+};
   return (
     <div className="bg-gray-100 min-h-screen p-6">
       <h2 className="text-3xl font-bold text-center mb-8">

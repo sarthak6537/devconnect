@@ -1,21 +1,34 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import BASE_URL from "../api";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
-    const res = await axios.post("https://devconnect-twnc.onrender.com//user/login", {
-      email,
-      password
-    });
+    try {
+      const res = await axios.post(`${BASE_URL}/user/login`, {
+        email,
+        password,
+      });
 
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("userId", res.data.user._id);
-    localStorage.setItem("role", res.data.user.role);
+      // ✅ SAVE DATA
+      localStorage.setItem("userId", res.data.user._id);
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("role", res.data.user.role);
 
-    alert("Login Success 🚀");
+      alert("Login Success 🚀");
+
+      // ✅ REDIRECT
+      navigate("/projects");
+
+    } catch (err) {
+      console.log(err);
+      alert("Login Failed ❌");
+    }
   };
 
   return (
