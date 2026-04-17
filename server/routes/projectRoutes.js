@@ -4,16 +4,22 @@ const Project = require("../models/Project");
 const auth = require("../middleware/auth"); // ✅ protect routes
 
 // ✅ 1️⃣ Create project (only logged-in user)
-router.post("/create",  async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
+    console.log("BODY:", req.body); // debug
+
     const project = new Project({
-      ...req.body,
-      userId: req.user.id // 👈 who created project
+      title: req.body.title,
+      budget: req.body.budget,
+      description: req.body.description,
+      // ❌ REMOVE userId for now
     });
 
     await project.save();
+
     res.json(project);
   } catch (err) {
+    console.log("ERROR:", err); // 👈 show error in console
     res.status(500).json({ error: err.message });
   }
 });
