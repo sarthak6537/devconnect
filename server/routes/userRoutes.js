@@ -22,16 +22,29 @@ router.post("/signup", async (req, res) => {
 
 // Login
 router.post("/login", async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
+  try {
+    const user = await User.findOne({ email: req.body.email });
 
-  if (!user) return res.json({ message: "User not found" });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
 
-  const isMatch = await bcrypt.compare(req.body.password, user.password);
-  if (!isMatch) return res.json({ message: "Wrong password" });
+    const isMatch = await bcrypt.compare(req.body.password, user.password);
 
-  const token = jwt.sign({ id: user._id }, "secretkey");
+    if (!isMatch) {
+      return res.status(400).json({ message: "Wrong password" });
+    }
 
-  res.json({ user, token });
+    const token = jwt.sign({ id: user._id }, "secretkey");
+
+    res.json({
+      user,
+      token,
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // ✅ ADD THIS LINE (VERY IMPORTANT)

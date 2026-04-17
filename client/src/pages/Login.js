@@ -8,28 +8,39 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    try {
-      const res = await axios.post(`${BASE_URL}/user/login`, {
-        email,
-        password,
-      });
+const handleLogin = async () => {
+  try {
+    const res = await axios.post(`${BASE_URL}/user/login`, {
+      email,
+      password,
+    });
 
-      // ✅ SAVE DATA
-      localStorage.setItem("userId", res.data.user._id);
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.user.role);
+    console.log("LOGIN RESPONSE:", res.data);
 
-      alert("Login Success 🚀");
-
-      // ✅ REDIRECT
-      navigate("/projects");
-
-    } catch (err) {
-      console.log(err);
-      alert("Login Failed ❌");
+    // ✅ SAFE CHECK
+    if (!res.data || !res.data.user) {
+      alert("Invalid email or password ❌");
+      return;
     }
-  };
+
+    // ✅ STORE
+    localStorage.setItem("userId", res.data.user._id);
+    localStorage.setItem("token", res.data.token);
+
+    alert("Login Success 🚀");
+    navigate("/projects");
+
+  } catch (err) {
+    console.log("FULL ERROR:", err);
+
+    // ✅ SHOW REAL ERROR
+    if (err.response) {
+      alert(err.response.data?.message || "Login Failed ❌");
+    } else {
+      alert("Server not reachable ❌");
+    }
+  }
+};
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
