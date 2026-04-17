@@ -4,7 +4,7 @@ const Project = require("../models/Project");
 const auth = require("../middleware/auth"); // ✅ protect routes
 
 // ✅ 1️⃣ Create project (only logged-in user)
-router.post("/create", auth, async (req, res) => {
+router.post("/create",  async (req, res) => {
   try {
     const project = new Project({
       ...req.body,
